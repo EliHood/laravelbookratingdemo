@@ -30,7 +30,7 @@ $('#sub').submit(function(e){
 
          $.ajax({
             type:"POST",
-            url:"http://127.0.0.1:8000/rate/" + route.id,
+            url:"/rate/" + route.id,
             headers: {
                     'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
               }, 
