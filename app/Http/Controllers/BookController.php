@@ -59,6 +59,7 @@ class BookController extends Controller
 
     public function rate(Request $request, $book_id)
     {
+
         $book = Book::find($book_id);
         $rating = $book->ratings()->where('user_id', auth()->user()->id)->first();
 
@@ -67,13 +68,12 @@ class BookController extends Controller
             $ratings->rating =  $request['rating'];
             $ratings->user_id = auth()->user()->id;
             $book->ratings()->save($ratings);
-            return redirect()->back();
+            return json_encode($book);
+      
         }
         else{
-            return redirect()->back()->with("status", "You already left a review");
+           return response()->json(['status' => 'You already left a review']);
         }
-
-
     }
 
  

@@ -8,7 +8,7 @@
         <div class="col-md-10 offset-md-1">
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-ticket"> Books</i>
+                    <i class="fa fa-book"> Books</i>
                 </div>
 
                 <div class="card-body">
@@ -21,7 +21,7 @@
                              
                                     <th>Title</th>
                                     <th>Last Updated</th>
-                                    <th style="text-align:center" colspan="2">Actions</th>
+                           
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,9 +35,7 @@
                             
                                     <td>{{ $book->updated_at }}</td>
                                
-                                    <td>
-                                    
-                                    </td>
+                                   
                                 </tr>
                             @endforeach
                             </tbody>

@@ -1,4 +1,5 @@
-$("#rateYo").each(function () {
+(function($){
+	$('#flash-message').hide();
 	$('#rateYo').rateYo({
 	    starWidth: "20px",
 	  
@@ -19,5 +20,41 @@ $("#rateYo").each(function () {
 
 	});
 
-});
 
+$('#sub').submit(function(e){
+      var owl = $(this).attr("data");
+      var route = JSON.parse(owl);
+
+
+
+
+         $.ajax({
+            type:"POST",
+            url:"http://127.0.0.1:8000/rate/" + route.id,
+            headers: {
+                    'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
+              }, 
+            data:{rating:$('#val').val()},
+            success:function(data){
+            	var status = data.status;
+             
+               	if(typeof status !== "undefined"){
+               		
+               		$('#flash-message').show().html(status);
+               		
+               	}else{
+               		$('#flash-message').hide();
+               	}
+ 
+            }
+         });
+
+      event.preventDefault();
+
+
+   });
+
+   
+
+
+ })(jQuery); 

@@ -5,11 +5,11 @@
    <div class="row">
 
    <div class="col-md-8 offset-md-2">
-      @if (session('status'))
-      <div class="alert alert-warning">
-         {{ session('status') }}
+      <div id="flash-message" class="alert alert-warning">
+        
       </div>
-      @endif
+
+
       <div class="card">
          <div class="card-header">
             {{ $book->title }}
@@ -21,7 +21,7 @@
                <hr>
                <p>Created: {{ $book->created_at->diffForHumans() }}</p>
                <h6>Ratings</h6>
-               <form action="{{ route('rate', $book->id) }}" method="POST">
+               <form id="sub" data="{{ $book }}">
                   {!! csrf_field() !!}
                   <div id="rateYo" data-rateyo-rating="{{  $book->userSumRating or 0}}"> ></div>
                   <input name="rating" value='{{  $book->userSumRating  or 0 }}' type="hidden" id="val">
@@ -35,4 +35,6 @@
          </div>
       </div>
 </div>
+
+
 @endsection
