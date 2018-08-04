@@ -5,8 +5,10 @@
 	  
 	});
 
+
 	$('#rateYo2').rateYo({
 	    starWidth: "20px",
+         readOnly: true
 	  
 	});
 	
@@ -21,12 +23,11 @@
 	});
 
 
+
+
 $('#sub').submit(function(e){
       var owl = $(this).attr("data");
       var route = JSON.parse(owl);
-
-
-
 
          $.ajax({
             type:"POST",
@@ -37,12 +38,18 @@ $('#sub').submit(function(e){
             data:{rating:$('#val').val()},
             success:function(data){
             	var status = data.status;
+              
+
              
                	if(typeof status !== "undefined"){
-               		
+
+                    
+             
                		$('#flash-message').show().html(status);
                		
                	}else{
+
+
                		$('#flash-message').hide();
                	}
  

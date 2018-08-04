@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Rate;
 use Illuminate\Http\Request;
 use willvincent\Rateable\Rating;
 
@@ -61,19 +62,29 @@ class BookController extends Controller
     {
 
         $book = Book::find($book_id);
-        $rating = $book->ratings()->where('user_id', auth()->user()->id)->first();
 
-        if(is_null($rating)){
+        $constraints = [
+            'user_id' => auth()->id(),
+            'book_id' => $book_id
+        ];
+
+        // checks if the user has not left a rating for this particular book
+        if ($book->ratings()->where($constraints)->doesntExist()) {
             $ratings = new Rating();
+            $ratings->book_id = $book_id;
             $ratings->rating =  $request['rating'];
-            $ratings->user_id = auth()->user()->id;
+            $ratings->user_id = auth()->id();
+            $ratings->type = Book::RATED;
             $book->ratings()->save($ratings);
+
             return json_encode($book);
-      
-        }
-        else{
-           return response()->json(['status' => 'You already left a review']);
-        }
+        } 
+
+
+        else {
+            return response()->json(['status' => 'You already left a review']);
+        } 
+        
     }
 
  
@@ -86,9 +97,19 @@ class BookController extends Controller
      */
     public function show($book_name)
     {
-        $book = Book::GetBook($book_name);
+        $books = Book::GetBook($book_name)->get();
 
-        return view('books.show', compact('book'));
+
+        $data = $books->map(function(Book $book){
+
+
+            $book['rated'] =  $book->type; 
+                           
+            return $book;
+         
+        });
+
+        return view('books.show', compact('data', $data));
     }
 
     public function rating($rating)

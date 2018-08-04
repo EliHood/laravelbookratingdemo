@@ -1,6 +1,8 @@
 @extends('layouts.app')
-@section('title', $book->title)
+
+@section('title')
 @section('content')
+@foreach ($data as $book)
 <div class="container">
    <div class="row">
 
@@ -23,7 +25,7 @@
                <h6>Ratings</h6>
                <form id="sub" data="{{ $book }}">
                   {!! csrf_field() !!}
-                  <div id="rateYo" data-rateyo-rating="{{  $book->userSumRating or 0}}"> ></div>
+                  <div id="rateYo" data-rateyo-read-only="{{ $book->rated }}" data-rateyo-rating="{{  $book->userSumRating or 0}}"></div>
                   <input name="rating" value='{{  $book->userSumRating  or 0 }}' type="hidden" id="val">
                   <button type="submit" class="btn btn-primary mt-2">submit</button>
                </form>
@@ -34,6 +36,7 @@
             </div>
          </div>
       </div>
+      @endforeach
 </div>
 
 
